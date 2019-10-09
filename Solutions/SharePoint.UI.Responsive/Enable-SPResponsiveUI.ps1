@@ -25,10 +25,14 @@ param
 
     [Parameter(Mandatory = $false, HelpMessage="Optional administration credentials")]
     [PSCredential]
-    $Credentials
+    $Credentials,
+
+    [Parameter(Mandatory = $false, HelpMessage="Optional administration credentials")]
+    [Switch]
+    $UseWebLogin
 )
 
-if($Credentials -eq $null)
+if($Credentials -eq $null -and $UseWebLogin -eq $false)
 {
 	$Credentials = Get-Credential -Message "Enter Admin Credentials"
 }
@@ -48,7 +52,11 @@ try
         Copy-Item .\SP-Responsive-UI.min.js .\SP-Responsive-UI.js -Force
     }
     Write-Host -ForegroundColor Yellow "Connecting to target site URL: $TargetSiteUrl"
-    Connect-PnPOnline $TargetSiteUrl -Credentials $Credentials
+    if ($UseWebLogin) {
+        Connect-PnPOnline $TargetSiteUrl -UseWebLogin;
+    } else {
+        Connect-PnPOnline $TargetSiteUrl -Credentials $Credentials;
+    }
     Write-Host -ForegroundColor Yellow "Enabling responsive UI on target site"
 
     # If the Infrastructure Site URL is provided, we use it
