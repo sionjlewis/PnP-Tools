@@ -27,7 +27,7 @@ param
     [PSCredential]
     $Credentials,
 
-    [Parameter(Mandatory = $false, HelpMessage="Include this switch when connecting to SharePoint with browser based login. This option requires multi-factor authentication (MFA) to be enabled.")]
+    [Parameter(Mandatory = $false, HelpMessage="Include this switch when connecting to SharePoint with browser based login. This option requires multi-factor authentication (MFA) to be enabled")]
     [Switch]
     $UseWebLogin
 )
